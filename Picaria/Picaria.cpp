@@ -6,6 +6,43 @@
 #include <QActionGroup>
 #include <QSignalMapper>
 
+#include <cstdbool>
+#include <cstdio>
+
+// Adjacent Positions to each button
+// false: not-available; true: adjacent;
+int adjacentHoles_09HolesMode[13][13]= {
+         {false, true,  false, false, false, true,  true,  false, false, false, false, false, false}, // Hole 01
+         {true,  false, true,  false, false, true,  true,  true,  false, false, false, false, false}, // Hole 02
+         {false, true,  false, false, false, false, true,  true,  false, false, false, false, false}, // Hole 03
+         {false, false, false, false, false, false, false, false, false, false, false, false, false}, // Hole 04
+         {false, false, false, false, false, false, false, false, false, false, false, false, false}, // Hole 05
+         {true,  true,  false, false, false, false, true,  false, false, false, true,  true,  false}, // Hole 06
+         {true,  true,  true,  false, false, true,  false, true,  false, false, true,  true,  true }, // Hole 07
+         {false, true,  true,  false, false, false, true,  false, false, false, false, true,  true }, // Hole 08
+         {false, false, false, false, false, false, false, false, false, false, false, false, false}, // Hole 09
+         {false, false, false, false, false, false, false, false, false, false, false, false, false}, // Hole 10
+         {false, false, false, false, false, true,  true,  false, false, false, false, true,  false}, // Hole 11
+         {false, false, false, false, false, true,  true,  true,  false, false, true, false,  true }, // Hole 12
+         {false, false, false, false, false, false, true,  true,  false, false, false, true,  false}, // Hole 13
+        };
+int adjacentHoles_13HolesMode[13][13]= {
+         {false, true,  false, true,  false, true,  false, false, false, false, false, false, false}, // Hole 01
+         {true,  false, true,  true,  true,  false, false, false, false, false, false, false, false}, // Hole 02
+         {false, true,  false, false, true,  false, false, true,  false, false, false, false, false}, // Hole 03
+         {true,  true,  false, false, false, true,  true,  false, false, false, false, false, false}, // Hole 04
+         {false, true,  true,  false, false, false, true,  true,  false, false, false, false, false}, // Hole 05
+         {true,  false, false, true,  false, false, true,  false, true,  false, true,  false, false}, // Hole 06
+         {false, true,  false, true,  true,  true,  true,  true,  true,  true,  false, true,  false}, // Hole 07
+         {false, false, true,  false, true,  false, true,  false, false, true,  false, false, true }, // Hole 08
+         {false, false, false, false, false, true,  true,  false, false, false, true,  true,  false}, // Hole 09
+         {false, false, false, false, false, false, true,  true,  false, false, false, true,  true }, // Hole 10
+         {false, false, false, false, false, true,  false, false, true,  false, false, true,  false}, // Hole 11
+         {false, false, false, false, false, false, false, false, true,  true,  true, false,  true }, // Hole 12
+         {false, false, false, false, false, false, false, true,  false, true,  false, true,  false}, // Hole 13
+        };
+int previousButtonID = -1; // Store the button position to move pieces on phase 2
+
 Picaria::Player state2player(Hole::State state) {
     switch (state) {
         case Hole::RedState:
@@ -70,27 +107,95 @@ void Picaria::setMode(Picaria::Mode mode) {
 }
 
 void Picaria::switchPlayer() {
-    m_player = m_player == Picaria::RedPlayer ?
-                    Picaria::BluePlayer : Picaria::RedPlayer;
+    m_player = m_player == Picaria::RedPlayer ? Picaria::BluePlayer : Picaria::RedPlayer;
     this->updateStatusBar();
 }
 
 void Picaria::play(int id) {
-    if (this->m_player == BluePlayer && bluePieces < 3){
-        this->bluePieces++;
-    } else if (this->m_player == RedPlayer && redPieces < 3) {
-        this->redPieces++;
-    } else {
-        return;
-    }
-
     Hole* hole = m_holes[id];
-    // EmptyState or SelectableState
-    if(hole->state() == 0 || hole->state() == 3){
-        qDebug() << "clicked on: " << hole->objectName();
 
-        hole->setState(player2state(m_player));
-        this->switchPlayer();
+    // Phase 1
+    if (m_phase == Picaria::DropPhase) {
+        if (bluePieces < 3 || redPieces < 3) {
+            if (this->m_player == BluePlayer && bluePieces < 3 && hole->state() == hole->EmptyState){
+                this->bluePieces++;
+            } else if (this->m_player == RedPlayer && redPieces < 3 && hole->state() == hole->EmptyState) {
+                this->redPieces++;
+            } else {
+                return;
+            }
+
+            // EmptyState or SelectableState
+            if(hole->state() == 0 || hole->state() == 3){
+                qDebug() << "clicked on: " << hole->objectName();
+
+                hole->setState(player2state(m_player));
+
+                if (bluePieces == 3 && redPieces == 3){
+                    m_phase = Picaria::MovePhase; // change to phase 2
+                }
+
+                this->switchPlayer();
+            }
+        }
+    } else /* Phase 2 */{
+
+        // Select piece to move
+        if ( (hole->state() == hole->BlueState && m_player == Picaria::BluePlayer) ||
+             (hole->state() == hole->RedState && m_player == Picaria::RedPlayer) ){
+
+            // Clean old selectables
+            for(int i = 0; i < 13; i++){
+                Hole* currentHole = m_holes[i];
+                if (currentHole->state() == currentHole->SelectableState){
+                    currentHole->setState(currentHole->EmptyState);
+                }
+            }
+
+            // Mark current selectables
+            for(int i = 0; i < 13; i++){
+                Hole* currentHole = m_holes[i];
+
+                if(m_mode == Picaria::Mode::NineHoles){
+                    if(adjacentHoles_09HolesMode[id][i] && currentHole->state() == currentHole->EmptyState){
+                        currentHole->setState(hole->SelectableState);
+                        previousButtonID = id;
+                    }
+                } else {
+                    if(adjacentHoles_13HolesMode[id][i] && currentHole->state() == currentHole->EmptyState){
+                        currentHole->setState(hole->SelectableState);
+                        previousButtonID = id;
+                    }
+                }
+            }
+
+            return;
+        } else if (hole->state() == hole->SelectableState){
+            // Set new position
+            if (m_player == Picaria::RedPlayer){
+                hole->setState(hole->RedState);
+            } else {
+                hole->setState(hole->BlueState);
+            }
+
+            // Clean old position
+            Hole* oldHole = m_holes[previousButtonID];
+            oldHole->setState(oldHole->EmptyState);
+
+            // Clean selectable states
+            for (int i = 0; i < 13; i++){
+                Hole* currentHole = m_holes[i];
+                if(currentHole->state() == currentHole->SelectableState){
+                    currentHole->setState(currentHole->EmptyState);
+                }
+            }
+
+            previousButtonID = -1;
+            this->switchPlayer();
+        } else {
+            return;
+        }
+
     }
 
 }
