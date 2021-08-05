@@ -63,6 +63,8 @@ class Picaria : public QMainWindow {
         void updateMode(QAction* action);
         void updateStatusBar();
 
+        void verifyGameOver();
+
 };
 
 #endif // PICARIA_H

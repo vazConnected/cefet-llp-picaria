@@ -38,7 +38,7 @@ int adjacentHoles_13HolesMode[13][13]= {
          {false, false, false, false, false, true,  true,  false, false, false, true,  true,  false}, // Hole 09
          {false, false, false, false, false, false, true,  true,  false, false, false, true,  true }, // Hole 10
          {false, false, false, false, false, true,  false, false, true,  false, false, true,  false}, // Hole 11
-         {false, false, false, false, false, false, false, false, true,  true,  true, false,  true }, // Hole 12
+         {false, false, false, false, false, false, true,  false, true,  true,  true,  false, true }, // Hole 12
          {false, false, false, false, false, false, false, true,  false, true,  false, true,  false}, // Hole 13
         };
 int previousButtonID = -1; // Store the button position to move pieces on phase 2
@@ -112,6 +112,9 @@ void Picaria::switchPlayer() {
 }
 
 void Picaria::play(int id) {
+    // Verify end of game
+    Picaria::verifyGameOver();
+
     Hole* hole = m_holes[id];
 
     // Phase 1
@@ -168,9 +171,10 @@ void Picaria::play(int id) {
                     }
                 }
             }
-
             return;
+
         } else if (hole->state() == hole->SelectableState){
+
             // Set new position
             if (m_player == Picaria::RedPlayer){
                 hole->setState(hole->RedState);
@@ -250,4 +254,12 @@ void Picaria::updateStatusBar() {
     QString phase(m_phase == Picaria::DropPhase ? "colocar" : "mover");
 
     ui->statusbar->showMessage(tr("Fase de %1: vez do jogador %2").arg(phase).arg(player));
+}
+
+void Picaria::verifyGameOver(){
+    // Verificar o jogo termiou
+    // Verificar quem ganhou e imprimir mesagem de vitoria
+    //QMessageBox::information(this, tr("Vencedor"), tr("Parabéns, o jogador MISTERIOSO venceu."));
+    //Picaria::reset();
+
 }
