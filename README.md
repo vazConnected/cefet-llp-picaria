@@ -4,7 +4,7 @@ O objetivo desse projeto é desenvolver um jogo com o intuito de aplicar conceit
 ## Capturas de Tela
 | Modo 09 buracos | Modo 13 buracos | Vitória |
 |:-------------------------------:|:--------------------------------:|:------------------------------:|
-|![09-holes](assets\09-holes.png) | ![13-holes](assets\13-holes.png) | ![Victory](assets\victory.png) |
+|![09-holes](assets/09-holes.png) | ![13-holes](assets/13-holes.png) | ![Victory](assets/victory.png) |
 
 ## Descrição do Picaria
 Dado um tabuleiro com 4 quadrantes e 9 buracos (modo simples) ou 13 buracos (modo avançado), cada jogador recebe 3 peças iguais de uma determinada cor (azul ou vermelha). Vence o jogador que conseguir posicionar todas as suas peças em sequência primeiro.
