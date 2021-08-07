@@ -11,46 +11,63 @@
 
 // Adjacent Positions to each button
 // false: not-available; true: adjacent;
-int adjacentHoles_09HolesMode[13][13]= {
-         {false, true,  false, false, false, true,  true,  false, false, false, false, false, false}, // Hole 01
-         {true,  false, true,  false, false, true,  true,  true,  false, false, false, false, false}, // Hole 02
-         {false, true,  false, false, false, false, true,  true,  false, false, false, false, false}, // Hole 03
-         {false, false, false, false, false, false, false, false, false, false, false, false, false}, // Hole 04
-         {false, false, false, false, false, false, false, false, false, false, false, false, false}, // Hole 05
-         {true,  true,  false, false, false, false, true,  false, false, false, true,  true,  false}, // Hole 06
-         {true,  true,  true,  false, false, true,  false, true,  false, false, true,  true,  true }, // Hole 07
-         {false, true,  true,  false, false, false, true,  false, false, false, false, true,  true }, // Hole 08
-         {false, false, false, false, false, false, false, false, false, false, false, false, false}, // Hole 09
-         {false, false, false, false, false, false, false, false, false, false, false, false, false}, // Hole 10
-         {false, false, false, false, false, true,  true,  false, false, false, false, true,  false}, // Hole 11
-         {false, false, false, false, false, true,  true,  true,  false, false, true, false,  true }, // Hole 12
-         {false, false, false, false, false, false, true,  true,  false, false, false, true,  false}, // Hole 13
-        };
-int adjacentHoles_13HolesMode[13][13]= {
-         {false, true,  false, true,  false, true,  false, false, false, false, false, false, false}, // Hole 01
-         {true,  false, true,  true,  true,  false, false, false, false, false, false, false, false}, // Hole 02
-         {false, true,  false, false, true,  false, false, true,  false, false, false, false, false}, // Hole 03
-         {true,  true,  false, false, false, true,  true,  false, false, false, false, false, false}, // Hole 04
-         {false, true,  true,  false, false, false, true,  true,  false, false, false, false, false}, // Hole 05
-         {true,  false, false, true,  false, false, true,  false, true,  false, true,  false, false}, // Hole 06
-         {false, true,  false, true,  true,  true,  true,  true,  true,  true,  false, true,  false}, // Hole 07
-         {false, false, true,  false, true,  false, true,  false, false, true,  false, false, true }, // Hole 08
-         {false, false, false, false, false, true,  true,  false, false, false, true,  true,  false}, // Hole 09
-         {false, false, false, false, false, false, true,  true,  false, false, false, true,  true }, // Hole 10
-         {false, false, false, false, false, true,  false, false, true,  false, false, true,  false}, // Hole 11
-         {false, false, false, false, false, false, true,  false, true,  true,  true,  false, true }, // Hole 12
-         {false, false, false, false, false, false, false, true,  false, true,  false, true,  false}, // Hole 13
-        };
+bool adjacentHoles_09HolesMode[13][13]= {
+    {false, true,  false, false, false, true,  true,  false, false, false, false, false, false}, // Hole 01
+    {true,  false, true,  false, false, true,  true,  true,  false, false, false, false, false}, // Hole 02
+    {false, true,  false, false, false, false, true,  true,  false, false, false, false, false}, // Hole 03
+    {false, false, false, false, false, false, false, false, false, false, false, false, false}, // Hole 04
+    {false, false, false, false, false, false, false, false, false, false, false, false, false}, // Hole 05
+    {true,  true,  false, false, false, false, true,  false, false, false, true,  true,  false}, // Hole 06
+    {true,  true,  true,  false, false, true,  false, true,  false, false, true,  true,  true }, // Hole 07
+    {false, true,  true,  false, false, false, true,  false, false, false, false, true,  true }, // Hole 08
+    {false, false, false, false, false, false, false, false, false, false, false, false, false}, // Hole 09
+    {false, false, false, false, false, false, false, false, false, false, false, false, false}, // Hole 10
+    {false, false, false, false, false, true,  true,  false, false, false, false, true,  false}, // Hole 11
+    {false, false, false, false, false, true,  true,  true,  false, false, true, false,  true }, // Hole 12
+    {false, false, false, false, false, false, true,  true,  false, false, false, true,  false}, // Hole 13
+};
+bool adjacentHoles_13HolesMode[13][13]= {
+    {false, true,  false, true,  false, true,  false, false, false, false, false, false, false}, // Hole 01
+    {true,  false, true,  true,  true,  false, false, false, false, false, false, false, false}, // Hole 02
+    {false, true,  false, false, true,  false, false, true,  false, false, false, false, false}, // Hole 03
+    {true,  true,  false, false, false, true,  true,  false, false, false, false, false, false}, // Hole 04
+    {false, true,  true,  false, false, false, true,  true,  false, false, false, false, false}, // Hole 05
+    {true,  false, false, true,  false, false, true,  false, true,  false, true,  false, false}, // Hole 06
+    {false, true,  false, true,  true,  true,  true,  true,  true,  true,  false, true,  false}, // Hole 07
+    {false, false, true,  false, true,  false, true,  false, false, true,  false, false, true }, // Hole 08
+    {false, false, false, false, false, true,  true,  false, false, false, true,  true,  false}, // Hole 09
+    {false, false, false, false, false, false, true,  true,  false, false, false, true,  true }, // Hole 10
+    {false, false, false, false, false, true,  false, false, true,  false, false, true,  false}, // Hole 11
+    {false, false, false, false, false, false, true,  false, true,  true,  true,  false, true }, // Hole 12
+    {false, false, false, false, false, false, false, true,  false, true,  false, true,  false}, // Hole 13
+};
 int previousButtonID = -1; // Store the button position to move pieces on phase 2
+
+bool victoryTable_09HolesMode[8][13] = {
+    // Lines
+    { true,  true,  true,  false, false, false, false, false, false, false, false, false, false },
+    { false, false, false, false, false, true,  true,  true,  false, false, false, false, false },
+    { false, false, false, false, false, false, false, false, false, false, true,  true,  true  },
+    // Columns
+    { true,  false, false, false, false, true,  false, false, false, false, true,  false, false },
+    { false, true,  false, false, false, false, true,  false, false, false, false, true,  false },
+    { false, false, true,  false, false, false, false, true,  false, false, false, false, true  },
+    // Diagonals
+    { true,  false, false, false, false, false, true,  false, false, false, false, false, true  },
+    { false, false, true,  false, false, false, true,  false, false, false, true,  false, false },
+};
+
+bool victoryTable_13HolesMode[1][1];
+
 
 Picaria::Player state2player(Hole::State state) {
     switch (state) {
-        case Hole::RedState:
-            return Picaria::RedPlayer;
-        case Hole::BlueState:
-            return Picaria::BluePlayer;
-        default:
-            Q_UNREACHABLE();
+    case Hole::RedState:
+        return Picaria::RedPlayer;
+    case Hole::BlueState:
+        return Picaria::BluePlayer;
+    default:
+        Q_UNREACHABLE();
     }
 }
 
@@ -83,11 +100,11 @@ Picaria::Picaria(QWidget *parent) : QMainWindow(parent), ui(new Ui::Picaria), m_
         QObject::connect(hole, SIGNAL(clicked(bool)), map, SLOT(map()));
     }
 
-    #if QT_VERSION < QT_VERSION_CHECK(6,0,0)
-        QObject::connect(map, SIGNAL(mapped(int)), this, SLOT(play(int)));
-    #else
-        QObject::connect(map, SIGNAL(mappedInt(int)), this, SLOT(play(int)));
-    #endif
+#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
+    QObject::connect(map, SIGNAL(mapped(int)), this, SLOT(play(int)));
+#else
+    QObject::connect(map, SIGNAL(mappedInt(int)), this, SLOT(play(int)));
+#endif
 
     this->reset();
 
@@ -171,7 +188,7 @@ void Picaria::play(int id) {
                     }
                 }
             }
-            return;
+            //return;
 
         } else if (hole->state() == hole->SelectableState){
 
@@ -196,12 +213,12 @@ void Picaria::play(int id) {
 
             previousButtonID = -1;
             this->switchPlayer();
-        } else {
-            return;
         }
 
     }
 
+    // Verify end of game
+    Picaria::verifyGameOver();
 }
 
 void Picaria::reset() {
@@ -216,14 +233,14 @@ void Picaria::reset() {
 
         // Set the hole visibility according to the board mode.
         switch (id) {
-            case 3:
-            case 4:
-            case 8:
-            case 9:
-                hole->setVisible(m_mode == Picaria::ThirteenHoles);
-                break;
-            default:
-                break;
+        case 3:
+        case 4:
+        case 8:
+        case 9:
+            hole->setVisible(m_mode == Picaria::ThirteenHoles);
+            break;
+        default:
+            break;
         }
     }
 
@@ -257,9 +274,55 @@ void Picaria::updateStatusBar() {
 }
 
 void Picaria::verifyGameOver(){
-    // Verificar o jogo termiou
-    // Verificar quem ganhou e imprimir mesagem de vitoria
-    //QMessageBox::information(this, tr("Vencedor"), tr("Parabéns, o jogador MISTERIOSO venceu."));
-    //Picaria::reset();
+    bool gameOver = false;
+    int whoWon = -1; // RedPlayer = 0, BluePlayer = 1, null = 0
+
+    if (m_mode == Picaria::Mode::NineHoles){
+        // Verify if there is a winner
+        for (int linesVitoryTable = 0; linesVitoryTable < 8; linesVitoryTable++){
+            int playerState = -1; // RedPlayer = 0, BluePlayer = 1, null = 0
+            int playerCounterStreak = 0; // minimun 0 pieces, maximum 3
+
+            for (int columnsVictoryTable = 0; columnsVictoryTable < 13; columnsVictoryTable++) {
+                if (victoryTable_09HolesMode[linesVitoryTable][columnsVictoryTable]){
+                    if (playerState == -1 && m_holes[columnsVictoryTable]->state() == Hole::State::BlueState){
+                        playerState = 1; // BluePlayer
+                        playerCounterStreak++;
+                    } else if (playerState == -1 && m_holes[columnsVictoryTable]->state() == Hole::State::RedState){
+                        playerState = 0; // RedPlayer
+                        playerCounterStreak++;
+                    } else {
+                        if (playerState == 1 && m_holes[columnsVictoryTable]->state() == Hole::State::BlueState){
+                            // Blue streak continues
+                            playerCounterStreak++;
+                        } else if (playerState == 0 && m_holes[columnsVictoryTable]->state() == Hole::State::RedState){
+                            // Red streak continues
+                            playerCounterStreak++;
+                        } else {
+                            // No sequence found
+                            break;
+                        }
+                    }
+                }
+            }
+
+            // Verify if a player won the match
+            if (playerCounterStreak == 3) {
+                whoWon = playerState;
+            }
+        }
+
+    } else /* 13 holes */ {
+
+    }
+
+    // If red won the match
+    if (whoWon == 1) {
+        QMessageBox::information(this, tr("Vencedor"), tr("Parabéns, o jogador azul venceu."));
+        Picaria::reset();
+    } else if (whoWon == 0) {
+        QMessageBox::information(this, tr("Vencedor"), tr("Parabéns, o jogador vermelho venceu."));
+        Picaria::reset();
+    }
 
 }
