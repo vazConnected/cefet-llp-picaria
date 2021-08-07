@@ -1,8 +1,13 @@
 # Picaria
-O objetivo desse prejoto é desenvolver um jogo com o intuito de aplicar de conceitos de programação orientada a eventos em um sistema computacional utilizado o [framework Qt](https://qt.io/developers) sobre C++ para criação de interfaces gráficas.
+O objetivo desse projeto é desenvolver um jogo com o intuito de aplicar conceitos de programação orientada a eventos em um sistema computacional utilizado o [framework Qt](https://qt.io/developers) sobre C++ para criação de interfaces gráficas.
+
+## Capturas de Tela
+| Modo 09 buracos | Modo 13 buracos | Vitória |
+|:-------------------------------:|:--------------------------------:|:------------------------------:|
+|![09-holes](assets\09-holes.png) | ![13-holes](assets\13-holes.png) | ![Victory](assets\victory.png) |
 
 ## Descrição do Picaria
-Dado um tabuleiro com 4 quadrantes e 9 (modo simples) ou 13 burados (modo avançado), cada jogador recebe 3 peças iguais de uma determinada cor (azul ou vermelha). Vence o jogador que conseguir posicionar todas as suas peças na diagonal primeiro.
+Dado um tabuleiro com 4 quadrantes e 9 buracos (modo simples) ou 13 buracos (modo avançado), cada jogador recebe 3 peças iguais de uma determinada cor (azul ou vermelha). Vence o jogador que conseguir posicionar todas as suas peças em sequência primeiro.
 
 ### Gameplay
   - O jogo é dividido em duas fases: a primeira de posicionar as peças e a segunda de alterar suas respectivas posições no tabuleiro;
@@ -11,7 +16,7 @@ Dado um tabuleiro com 4 quadrantes e 9 (modo simples) ou 13 burados (modo avanç
 
 ### Regras
   - Nenhuma peça pode ser sobreposta;
-  - Durante o jogo, o jogador só poderá controlar das peças que recebeu inicialmente;
+  - Durante o jogo, o jogador só poderá controlar as peças que recebeu inicialmente;
   - Uma peça pode ter sua posição alterada somente para buracos adjascentes (conectadas pelas linhas indicadas no tabuleiro) que não contenham outra peça, ou seja, para uma posição válida;
 
 ## Autores
