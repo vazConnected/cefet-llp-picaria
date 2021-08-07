@@ -57,7 +57,32 @@ bool victoryTable_09HolesMode[8][13] = {
     { false, false, true,  false, false, false, true,  false, false, false, true,  false, false },
 };
 
-bool victoryTable_13HolesMode[1][1];
+bool victoryTable_13HolesMode[16][13] = {
+    // Lines
+    { true,  true,  true,  false, false, false, false, false, false, false, false, false, false },
+    { false, false, false, false, false, true,  true,  true,  false, false, false, false, false },
+    { false, false, false, false, false, false, false, false, false, false, true,  true,  true  },
+    // Columns
+    { true,  false, false, false, false, true,  false, false, false, false, true,  false, false },
+    { false, true,  false, false, false, false, true,  false, false, false, false, true,  false },
+    { false, false, true,  false, false, false, false, true,  false, false, false, false, true  },
+    // Diagonals
+    // 1st quarter (top-left)
+    { true,  false, false, true,  false, false, true,  false, false, false, false, false, false },
+    { false, true,  false, true,  false, true,  false, false, false, false, false, false, false },
+    // 2nd quarter (top-right)
+    { false, true,  false, false, true,  false, false, true,  false, false, false, false, false },
+    { false, false, true,  false, true,  false, true,  false, false, false, false, false, false },
+    // 3rd quarter (bottom-left)
+    { false, false, false, false, false, true,  false, false, true,  false, false, true,  false },
+    { false, false, false, false, false, false, true,  false, true,  false, true,  false, false },
+    // 4th (bottom-right)
+    { false, false, false, false, false, false, true,  false, false, true,  false, false, true  },
+    { false, false, false, false, false, false, false, true,  false, true,  false, true,  false },
+    // Middle
+    { false, false, false, true,  false, false, true,  false, false, true,  false, false, false },
+    { false, false, false, false, true,  false, true,  false, true,  false, false, false, false },
+};
 
 
 Picaria::Player state2player(Hole::State state) {
@@ -131,7 +156,6 @@ void Picaria::switchPlayer() {
 void Picaria::play(int id) {
     // Verify end of game
     Picaria::verifyGameOver();
-
     Hole* hole = m_holes[id];
 
     // Phase 1
@@ -188,8 +212,6 @@ void Picaria::play(int id) {
                     }
                 }
             }
-            //return;
-
         } else if (hole->state() == hole->SelectableState){
 
             // Set new position
@@ -210,11 +232,9 @@ void Picaria::play(int id) {
                     currentHole->setState(currentHole->EmptyState);
                 }
             }
-
             previousButtonID = -1;
             this->switchPlayer();
         }
-
     }
 
     // Verify end of game
@@ -274,7 +294,6 @@ void Picaria::updateStatusBar() {
 }
 
 void Picaria::verifyGameOver(){
-    bool gameOver = false;
     int whoWon = -1; // RedPlayer = 0, BluePlayer = 1, null = 0
 
     if (m_mode == Picaria::Mode::NineHoles){
@@ -311,9 +330,40 @@ void Picaria::verifyGameOver(){
                 whoWon = playerState;
             }
         }
-
     } else /* 13 holes */ {
+        // Verify if there is a winner
+        for (int linesVitoryTable = 0; linesVitoryTable < 16; linesVitoryTable++){
+            int playerState = -1; // RedPlayer = 0, BluePlayer = 1, null = 0
+            int playerCounterStreak = 0; // minimun 0 pieces, maximum 3
 
+            for (int columnsVictoryTable = 0; columnsVictoryTable < 13; columnsVictoryTable++) {
+                if (victoryTable_13HolesMode[linesVitoryTable][columnsVictoryTable]){
+                    if (playerState == -1 && m_holes[columnsVictoryTable]->state() == Hole::State::BlueState){
+                        playerState = 1; // BluePlayer
+                        playerCounterStreak++;
+                    } else if (playerState == -1 && m_holes[columnsVictoryTable]->state() == Hole::State::RedState){
+                        playerState = 0; // RedPlayer
+                        playerCounterStreak++;
+                    } else {
+                        if (playerState == 1 && m_holes[columnsVictoryTable]->state() == Hole::State::BlueState){
+                            // Blue streak continues
+                            playerCounterStreak++;
+                        } else if (playerState == 0 && m_holes[columnsVictoryTable]->state() == Hole::State::RedState){
+                            // Red streak continues
+                            playerCounterStreak++;
+                        } else {
+                            // No sequence found
+                            break;
+                        }
+                    }
+                }
+            }
+
+            // Verify if a player won the match
+            if (playerCounterStreak == 3) {
+                whoWon = playerState;
+            }
+        }
     }
 
     // If red won the match
